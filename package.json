@@ -1,0 +1,74 @@
+{
+  "name": "vaarz",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Vaarz — a local-first desktop studio for scheduling and publishing social posts with OpenRouter AI",
+  "author": "Vaarz",
+  "main": "dist-electron/main.cjs",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run typecheck && node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "start": "npm run build && electron .",
+    "test": "node scripts/test.mjs",
+    "package": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "icon": "electron scripts/make-icon.cjs",
+    "installer": "npm run build && electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^45.2.1",
+    "electron-builder": "^26.18.0",
+    "esbuild": "^0.28.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7"
+  },
+  "build": {
+    "appId": "app.vaarz.desktop",
+    "productName": "Vaarz",
+    "files": [
+      "dist/**",
+      "dist-electron/**",
+      "build/icon.png",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis",
+      "artifactName": "Vaarz-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Vaarz",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.social-networking",
+      "artifactName": "Vaarz-${version}-${arch}.${ext}"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Network"
+    },
+    "icon": "build/icon.png"
+  },
+  "overrides": {
+    "minimatch": "^11.0.3"
+  }
+}
